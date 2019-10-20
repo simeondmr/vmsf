@@ -1,8 +1,92 @@
+Document version: 1.0.0
+
+This document contain all info about vmsf architecture.
+
+
+########################################################################################################################################################
 General:
-...
+This is a 32 bit stack virtual machine.
+Byte ordering:  little-endian
+########################################################################################################################################################
 
-ISA:
-...
 
+
+
+
+########################################################################################################################################################
 Architecture:
+1) registers: pc, sp, bp
+2) flags
+
+Word: 1 byte
+
+Instruction with param width(tot 6 byte):
+ +------------ +---------------+
+ | opc: 2 byte | param: 4 byte |
+ +------------ +---------------+
+
+Instruction without param width(tot 2 byte):
+ +------------ +
+ | opc: 2 byte |
+ +------------ +
+ 
+ 
+ 
+Stack architecture:
 ...
+
+
+########################################################################################################################################################
+
+
+
+
+########################################################################################################################################################
+ISA:
+1)   nop	->  opcode: 0x0000
+2)   push	->  opcode: 0x0001
+3)   add	->  opcode: 0x0002
+4)   sub	->  opcode: 0x0003
+5)   mul	->  opcode: 0x0004
+6)   div	->  opcode: 0x0005
+7)   addc	->  opcode: 0x0006
+8)   subc	->  opcode: 0x0007
+9)   inc	->  opcode: 0x0008
+10)  dec	->  opcode: 0x0009
+11)  swap	->  opcode: 0x000a
+12)  xor	->  opcode: 0x000b
+13)  and	->  opcode: 0x000c
+14)  or		->  opcode: 0x000d
+15)  not	->  opcode: 0x000e
+16)  call	->  opcode: 0x000f
+17)  pushpc	->  opcode: 0x0010
+18)  jmp	->  opcode: 0x0011
+19)  ret	->  opcode: 0x0012
+20)  ref	->  opcode: 0x0013
+21)  dup	->  opcode: 0x0014
+22)  mod	->  opcode: 0x0015
+23)  cmp	->  opcode: 0x0016
+24)  jmpeq	->  opcode: 0x0017
+25)  jmplt	->  opcode: 0x0018
+26)  jmpgt	->  opcode: 0x0019
+27)  jmple	->  opcode: 0x001a
+28)  jmpge	->  opcode: 0x001b
+29)  jmpab	->  opcode: 0x001c
+30)  jmpbl	->  opcode: 0x001d
+31)  jmpae	->  opcode: 0x001e
+32)  jmpbe	->  opcode: 0x001f
+33)  jmpne	->  opcode: 0x0020
+34)  divmod	->  opcode: 0x0021
+35)  addsp	->  opcode: 0x0022
+36)  subsp	->  opcode: 0x0023
+37)  incsp	->  opcode: 0x0024
+38)  decsp	->  opcode: 0x0025
+39)  unref	->  opcode: 0x0026
+40)  pushbp	->  opcode: 0x0027
+41)  popbp	->  opcode: 0x0028
+42)  pushall	->  opcode: 0x0029
+43)  popall	->  opcode: 0x002a
+44)  halt   	->  opcode: 0x002b
+45)  pushflags	->  opcode: 0x002c
+46)  popflags	->  opcode: 0x002d
+########################################################################################################################################################
