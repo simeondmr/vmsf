@@ -1,5 +1,5 @@
-#ifndef __OPCODESS_H
-#define __OPCODESS_H
+#ifndef __OPCODES_H
+#define __OPCODES_H
 enum opcodes {
 	NOP,
 	PUSH,

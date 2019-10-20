@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "../include/opcodes.h"
+#include "../include/registers_flags.h"
 
 int execute(unsigned char *code) {
   

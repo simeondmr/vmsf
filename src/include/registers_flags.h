@@ -1,22 +1,24 @@
 #ifndef __REGISTERS_FLAGS_H
 #define __REGISTERS_FLAGS_H
+#include <stdint.h>
+
 struct registers {
-	int pc;
-	int sp;
-	int bp;
+	uint32_t pc;
+	uint32_t sp;
+	uint32_t bp;
 };
 
 union flags {
-	unsigned char f_data;
+	uint8_t f_data;
 	struct {
-		unsigned char overflow : 1;
-		unsigned char carry : 1;
-		unsigned char zero : 1;
-		unsigned char negative : 1;
-		unsigned char flag_4 : 1;
-		unsigned char flag_5 : 1;
-		unsigned char flag_6 : 1;
-		unsigned char flag_7 : 1;
+		uint8_t overflow : 1;
+		uint8_t carry : 1;
+		uint8_t zero : 1;
+		uint8_t negative : 1;
+		uint8_t flag_4 : 1;
+		uint8_t flag_5 : 1;
+		uint8_t flag_6 : 1;
+		uint8_t flag_7 : 1;
 	};
 };
 #endif
