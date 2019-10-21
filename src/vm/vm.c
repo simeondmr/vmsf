@@ -4,23 +4,30 @@
 #include "../include/instructions.h"
 #include "../include/ram.h"
 
-extern void (*functions[256]) (uint8_t *ram, struct registers *regs, union flags *flgs); 
-
-enum opcodes fetch(uint8_t *ram, uint32_t *pc) 
-{
-	unsigned short int code = ram[*pc] << 4;
-	(*pc)++;
-	return code |= ram[*pc];
-}
+//extern void (*functions[256]) (uint8_t *ram, struct registers *regs, union flags *flgs); 
 
 int execute(uint8_t *ram) 
 {
-  struct registers regs;
-  union flags flgs;
-  uint8_t *memory = setup_ram();
-  
-  while (1) {
-    functions[fetch(memory, &regs.pc)](memory, &regs, &flgs);
-  }
-    
+	struct registers regs;
+	union flags flgs;
+	uint8_t *memory = setup_ram();
+	uint16_t op;
+	uint32_t arg;
+	int opsize;
+	int is_jmp;
+	
+	while (1) {
+		op = read_ram_16(memory, &regs.pc);
+		arg = 0;
+		opsize = 2;
+		if(op == PUSH) {
+			arg = read_ram_32(memory, &regs.pc+2);
+			opsize = 6;
+		}
+		is_jmp = functions[op](memory, &regs, &flgs, arg);
+		if(is_jmp == EXEC_JMP) {
+			regs.pc += opsize;
+		}
+	}
+		
 }
