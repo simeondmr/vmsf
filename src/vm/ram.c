@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include "ram.h"
 
 #define MAX_SIZE 0x10000
 
 uint8_t *setup_ram() {
 	uint8_t *ram = calloc(MAX_SIZE, sizeof(uint8_t));
+	return ram;
 }
 
 void unsetup_ram(uint8_t *ram) {

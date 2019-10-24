@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "../include/ram.h"
 #include "../include/registers_flags.h"
 #include "../include/opcodes.h"
 #include "../include/instructions.h"
@@ -37,7 +38,7 @@ int is_negative(uint32_t value)
 
 uint32_t abs(uint32_t value) 
 {
-	return value & ~(1<<31);
+	return is_negative(value)?-value:value;
 }
 
 uint32_t calc_sum(uint32_t a, uint32_t b, int carry, int neg) 
@@ -85,7 +86,7 @@ void set_flags2(union flags *flgs, uint32_t a, uint32_t b, int carry, int neg)
 	uint32_t r = calc_sum(a, b, carry, neg);
 	set_flags(flgs, r);
 	flgs->overflow = is_overflow(a, b, r, neg);
-	flgs->carry = is_carry(a, b, r, carry, neg);
+	flgs->carry = is_carry(a, b, carry, neg);
 }
 
 void push_32_set_flags(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t value)

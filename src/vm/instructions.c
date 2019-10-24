@@ -1,8 +1,9 @@
 #include <stdio.h>
+#include "../include/ram.h"
 #include "../include/registers_flags.h"
 #include "../include/opcodes.h"
-#include "../include/instructions.h"
 #include "../include/instructions_helpers.h"
+#include "../include/instructions.h"
 
 int execute_nop(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
 	return EXEC_OK;
@@ -250,7 +251,7 @@ int execute_unref(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 }
 
 int execute_pushbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	push_32(ram, regs, flgs, regs->bp);
+	push_32(ram, regs, regs->bp);
 	return EXEC_OK;
 }
 
@@ -260,10 +261,10 @@ int execute_popbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 }
 
 int execute_pushall(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	push_32(ram, regs, flgs, regs->pc);
-	push_8(ram, regs, flgs, flgs->f_data);
-	push_32(ram, regs, flgs, regs->bp);
-	push_32(ram, regs, flgs, regs->sp);
+	push_32(ram, regs, regs->pc);
+	push_8(ram, regs, flgs->f_data);
+	push_32(ram, regs, regs->bp);
+	push_32(ram, regs, regs->sp);
 	return EXEC_OK;
 }
 
@@ -282,6 +283,55 @@ int execute_pushflags(uint8_t *ram, struct registers *regs, union flags *flgs, u
 }
 
 int execute_popflags(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	flgs->f_data = pop_8(ram, regs, flgs);
+	flgs->f_data = pop_8(ram, regs);
 	return EXEC_OK;
 }
+
+execute_opcode *functions[256] = {
+	execute_nop,
+	execute_push,
+	execute_add,
+	execute_sub,
+	execute_mul,
+	execute_div,
+	execute_addc,
+	execute_subc,
+	execute_inc,
+	execute_dec,
+	execute_swap,
+	execute_xor,
+	execute_and,
+	execute_or,
+	execute_not,
+	execute_call,
+	execute_pushpc,
+	execute_jmp,
+	execute_ret,
+	execute_ref,
+	execute_dup,
+	execute_mod,
+	execute_cmp,
+	execute_jmpeq,
+	execute_jmplt,
+	execute_jmpgt,
+	execute_jmple,
+	execute_jmpge,
+	execute_jmpab,
+	execute_jmpbl,
+	execute_jmpae,
+	execute_jmpbe,
+	execute_jmpne,
+	execute_divmod,
+	execute_addsp,
+	execute_subsp,
+	execute_incsp,
+	execute_decsp,
+	execute_unref,
+	execute_pushbp,
+	execute_popbp,
+	execute_pushall,
+	execute_popall,
+	execute_halt,
+	execute_pushflags,
+	execute_popflags
+};
