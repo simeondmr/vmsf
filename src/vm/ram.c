@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "ram.h"
+#include "../include/ram.h"
 
 #define MAX_SIZE 0x10000
 

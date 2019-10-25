@@ -100,8 +100,7 @@ int execute_pushpc(uint8_t *ram, struct registers *regs, union flags *flgs, uint
 }
 
 int execute_jmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	uint32_t a=pop_32(ram, regs);
-	regs->pc=a;
+	regs->pc=arg;
 	return EXEC_JMP;
 }
 
@@ -137,11 +136,10 @@ int execute_cmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_jmpeq(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) { // todo: pop or peek?
-	uint32_t a=pop_32(ram, regs);
+int execute_jmpeq(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
 	if(flgs->zero)
 	{
-		regs->pc=a;
+		regs->pc=arg;
 		return EXEC_JMP;
 	}
 	return EXEC_OK;
@@ -153,10 +151,9 @@ int execute_jmplt(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 }
 
 int execute_jmpgt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	uint32_t a=pop_32(ram, regs);
 	if(flgs->negative == flgs->overflow && !flgs->zero)
 	{
-		regs->pc=a;
+		regs->pc=arg;
 		return EXEC_JMP;
 	}
 	return EXEC_OK;
@@ -168,10 +165,9 @@ int execute_jmple(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 }
 
 int execute_jmpge(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	uint32_t a=pop_32(ram, regs);
 	if(flgs->negative == flgs->overflow || flgs->zero)
 	{
-		regs->pc=a;
+		regs->pc=arg;
 		return EXEC_JMP;
 	}
 	return EXEC_OK;
@@ -183,10 +179,9 @@ int execute_jmpab(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 }
 
 int execute_jmpbl(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	uint32_t a=pop_32(ram, regs);
 	if(flgs->carry)
 	{
-		regs->pc=a;
+		regs->pc=arg;
 		return EXEC_JMP;
 	}
 	return EXEC_OK;
@@ -198,10 +193,9 @@ int execute_jmpae(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 }
 
 int execute_jmpbe(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) {
-	uint32_t a=pop_32(ram, regs);
 	if(flgs->carry || flgs->zero)
 	{
-		regs->pc=a;
+		regs->pc=arg;
 		return EXEC_JMP;
 	}
 	return EXEC_OK;
