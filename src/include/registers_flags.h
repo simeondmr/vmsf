@@ -4,7 +4,7 @@
 
 struct registers {
 	uint32_t pc;
-	uint32_t sp;
+	int32_t sp;
 	uint32_t bp;
 };
 

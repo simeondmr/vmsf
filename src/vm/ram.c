@@ -5,23 +5,27 @@
 
 #define MAX_SIZE 0x10000
 
-uint8_t *setup_ram() {
+uint8_t *setup_ram() 
+{
 	uint8_t *ram = calloc(MAX_SIZE, sizeof(uint8_t));
 	return ram;
 }
 
-void unsetup_ram(uint8_t *ram) {
+void unsetup_ram(uint8_t *ram) 
+{
 	free(ram);
 }
 
-void write_ram(uint8_t *ram, uint32_t addr, uint8_t *data, uint32_t size) {
-	for(uint32_t i = 0; i < size && addr + i < MAX_SIZE; i++) {
+void write_ram(uint8_t *ram, uint32_t addr, uint8_t *data, uint32_t size) 
+{
+	for (uint32_t i = 0; i < size && addr + i < MAX_SIZE; i++) {
 		ram[addr + i] = data[i];
 	}
 }
 
-void read_ram(uint8_t *ram, uint32_t addr, uint8_t *data, uint32_t size) {
-	for(uint32_t i = 0; i < size && addr + i < MAX_SIZE; i++) {
+void read_ram(uint8_t *ram, uint32_t addr, uint8_t *data, uint32_t size) 
+{
+	for (uint32_t i = 0; i < size && addr + i < MAX_SIZE; i++) {
 		data[i] = ram[addr + i];
 	}
 }

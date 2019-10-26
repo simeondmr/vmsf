@@ -1,11 +1,10 @@
-#include <stdio.h>
 #include "../include/ram.h"
 #include "../include/opcodes.h"
 #include "../include/registers_flags.h"
 #include "../include/instructions.h"
+#include "../include/instructions_helpers.h"
 
-//extern void (*functions[256]) (uint8_t *ram, struct registers *regs, union flags *flgs); 
-
+//TODO: rewrite execute
 int execute(uint8_t *ram) 
 {
 	struct registers regs;
@@ -20,8 +19,8 @@ int execute(uint8_t *ram)
 		op = read_ram_16(memory, regs.pc);
 		arg = 0;
 		opsize = 2;
-		if(op == PUSH) {
-			arg = read_ram_32(memory, regs.pc+2);
+		if(op == PUSH || isjump(op)) {//mettere gli altri jump
+			arg = read_ram_32(memory, regs.pc + 2);
 			opsize = 6;
 		}
 		is_jmp = functions[op](memory, &regs, &flgs, arg);
@@ -33,10 +32,4 @@ int execute(uint8_t *ram)
 		}
 	}
 	return 0;	
-}
-
-int main()
-{
-	//execute(NULL);
-	return 0;
 }

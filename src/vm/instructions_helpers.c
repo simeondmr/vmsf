@@ -83,7 +83,7 @@ void set_flags(union flags *flgs, uint32_t value)
 	flgs->carry = 0;
 }
 
-void set_flags2(union flags *flgs, uint32_t a, uint32_t b, int carry, int neg)
+void set_flags_add_sub(union flags *flgs, uint32_t a, uint32_t b, int carry, int neg)
 {
 	uint32_t r = calc_sum(a, b, carry, neg);
 	set_flags(flgs, r);
@@ -97,9 +97,28 @@ void push_32_set_flags(uint8_t *ram, struct registers *regs, union flags *flgs, 
 	set_flags(flgs, value);
 }
 
-void push_32_set_flags2(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t a, uint32_t b, int carry, int neg)
+void push_32_add_sub(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t a, uint32_t b, int carry, int neg)
 {
 	uint32_t value = calc_sum(a, b, carry, neg);
 	push_32(ram, regs, value);
-	set_flags2(flgs, a, b, carry, neg);
+	set_flags_add_sub(flgs, a, b, carry, neg);
+}
+
+int isjump(uint16_t op) 
+{
+	if (op == JMP
+	  || op == JMPEQ 
+	  || op == JMPLT
+	  || op == JMPGT
+	  || op == JMPLE
+	  || op == JMPGE
+	  || op == JMPAB
+	  || op == JMPBL
+	  || op == JMPAE
+	  || op == JMPBE
+	  || op == JMPNE) 
+	{
+	  return 1;
+	}
+	return 0;
 }
