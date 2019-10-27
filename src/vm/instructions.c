@@ -18,32 +18,32 @@ int execute_push(uint8_t *ram, struct registers *regs, union flags *flgs, uint32
 
 int execute_add(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram,regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_add_sub(ram, regs, flgs, param1, param2, 0, 0);
 	return EXEC_OK;
 }
 
 int execute_sub(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_add_sub(ram, regs, flgs, param1, param2, 0, 1);
 	return EXEC_OK;
 }
 
 int execute_mul(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_set_flags(ram, regs, flgs, param1 * param2);
 	return EXEC_OK;
 }
 
 int execute_div(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	uint32_t r = 0;
 	if (param2 != 0) {
 		r = param1 / param2;
@@ -55,16 +55,16 @@ int execute_div(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 
 int execute_addc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_add_sub(ram, regs, flgs, param1, param2, 0, 0);
 	return EXEC_OK;
 }
 
 int execute_subc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_add_sub(ram, regs, flgs, param1, param2, flgs->carry, 1);
 	return EXEC_OK;
 }
@@ -85,8 +85,8 @@ int execute_dec(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 
 int execute_swap(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32(ram, regs, param1);
 	push_32(ram, regs, param2);
 	return EXEC_OK;
@@ -94,24 +94,24 @@ int execute_swap(uint8_t *ram, struct registers *regs, union flags *flgs, uint32
 
 int execute_xor(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_set_flags(ram, regs, flgs, param1^param2);
 	return EXEC_OK;
 }
 
 int execute_and(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_set_flags(ram, regs, flgs, param1&param2);
 	return EXEC_OK;
 }
 
 int execute_or(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	push_32_set_flags(ram, regs, flgs, param1|param2);
 	return EXEC_OK;
 }
@@ -164,8 +164,8 @@ int execute_dup(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 
 int execute_mod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	uint32_t r = 0;
 	if (param2 != 0) {
 		r = param1 % param2;
@@ -177,8 +177,8 @@ int execute_mod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 
 int execute_cmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	set_flags_add_sub(flgs, param1, param2, 0, 1);
 	return EXEC_OK;
 }
@@ -275,8 +275,8 @@ int execute_jmpne(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 
 int execute_divmod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	uint32_t param1 = pop_32(ram, regs);
 	uint32_t param2 = pop_32(ram, regs);
+	uint32_t param1 = pop_32(ram, regs);
 	uint32_t rd=0;
 	uint32_t rm=0;
 	if (param2 != 0) {

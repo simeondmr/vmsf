@@ -20,17 +20,15 @@ void push_8(uint8_t *ram, struct registers *regs, uint8_t value)
 
 uint32_t pop_32(uint8_t *ram, struct registers *regs) 
 {
-	regs->sp -= 3;
+	regs->sp -= 4;
 	uint32_t pop_value = read_ram_32(ram, regs->sp);
-	regs->sp -= 1;
 	return pop_value;
 }
 
 void push_32(uint8_t *ram, struct registers *regs, uint32_t value) 
 {
-	regs->sp += 1;
 	write_ram_32(ram, regs->sp, value);
-	regs->sp += 3;
+	regs->sp += 4;
 }
 
 int is_negative(uint32_t value) 
