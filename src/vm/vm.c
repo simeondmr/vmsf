@@ -4,32 +4,30 @@
 #include "../include/instructions.h"
 #include "../include/instructions_helpers.h"
 
-//TODO: rewrite execute
-int execute(uint8_t *ram) 
+int execute(uint8_t *ram, uint32_t sp_value)
 {
 	struct registers regs;
 	union flags flgs;
-	uint8_t *memory = setup_ram();
-	uint16_t op;
+	uint16_t opc;
 	uint32_t arg;
-	int opsize;
+	int opc_size;
 	int is_jmp;
-	
+	regs.pc = 0;
+	regs.sp = sp_value;
+	regs.bp = sp_value;
 	while (1) {
-		op = read_ram_16(memory, regs.pc);
 		arg = 0;
-		opsize = 2;
-		if(op == PUSH || isjump(op)) {//mettere gli altri jump
-			arg = read_ram_32(memory, regs.pc + 2);
-			opsize = 6;
+		opc_size = OPC_SIZE;
+		opc = read_ram_16(ram, regs.pc);
+		if(opc == PUSH || isjump(opc)) {
+			arg = read_ram_32(ram, regs.pc + OPC_SIZE);
+			opc_size = OPC_PARAM;
 		}
-		is_jmp = functions[op](memory, &regs, &flgs, arg);
-		if(is_jmp == EXEC_JMP) {
-			regs.pc += opsize;
-		}
-		if(is_jmp == EXEC_HALT) {
+		is_jmp = functions[opc](ram, &regs, &flgs, arg);
+		if(is_jmp != EXEC_JMP) 
+			regs.pc += opc_size;
+		if(is_jmp == EXEC_HALT) 
 			break;
-		}
 	}
-	return 0;	
+	return 0;
 }
