@@ -5,6 +5,7 @@ BIN     :=./bin
 OBJ     :=./obj
 INCLUDE :=./src/include
 SRC     :=./src/vm
+TEST    :=./src/test
 SRCS    :=$(wildcard $(SRC)/*.c)
 OBJS    :=$(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS))
 EXE     :=$(BIN)/vm.exe
@@ -12,7 +13,7 @@ LOG     :=log.txt
 CFLAGS  :=-Wall -Wno-comment -I$(INCLUDE)
 LDLIBS  :=
 
-.PHONY: build run log clean all alllog
+.PHONY: build run log clean all alllog test
 
 build: $(EXE)
 
@@ -37,3 +38,8 @@ clean:
 all: clean build run
 
 alllog: clean build log
+
+flagtester: test
+	$(CC) $(CFLAGS) -DFLAGTESTER_MAIN $(TEST)/flagtester.c -o flagtester.exe
+	./flagtester.exe
+	rm flagtester.exe

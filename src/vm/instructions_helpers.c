@@ -38,39 +38,46 @@ int is_negative(uint32_t value)
 
 uint32_t abs(uint32_t value) 
 {
-	return is_negative(value)?-value:value;
+	return is_negative(value) ? -value : value;
+}
+
+uint32_t abs2(uint32_t value) 
+{
+	return value & (~(1<<31));
 }
 
 uint32_t calc_sum(uint32_t a, uint32_t b, int carry, int neg) 
 {
 	if (neg) {
-		b=  -b;
-		carry = -carry;
+		b = ~b;
+		carry = !carry;
 	}
 	return a + b + carry;
 }
 
 int is_overflow(uint32_t a, uint32_t b, int carry, int neg) 
-{ // todo: check
-	uint32_t r = calc_sum(a, b, carry, neg);
-	return !(is_negative(a) ^ is_negative(b) ^ neg) && is_negative(r) ^ is_negative(a);
+{
+	if(neg) {
+		b = ~b;
+		carry = !carry;
+	}
+	uint32_t s = calc_sum(a, b, carry, 0);
+	return (!is_negative(a) && !is_negative(b) && is_negative(s)) || (is_negative(a) && is_negative(b) && !is_negative(s));
 }
 
 int is_subcarry(uint32_t a, uint32_t b, int carry, int neg) 
-{ // todo: check
-	a = abs(a);
-	b = abs(b);
-	if (neg) {
-		b = -b;
-		carry = -carry;
+{
+	if(neg) {
+		b = ~b;
+		carry = !carry;
 	}
-	return is_negative(a + b + carry);
+	uint32_t s = calc_sum(abs2(a), abs2(b), carry, 0);
+	return is_negative(s) ^ neg;
 }
 
 int is_carry(uint32_t a, uint32_t b, int carry, int neg) 
-{ // todo: check
-	uint32_t r = calc_sum(a, b, carry, neg);
-	return is_overflow(a, b, r, neg) ^ is_subcarry(a, b, carry, neg);
+{
+	return is_overflow(a, b, carry, neg) ^ is_subcarry(a, b, carry, neg);
 }
 
 void set_flags(union flags *flgs, uint32_t value) 
@@ -118,5 +125,12 @@ int isjump(uint16_t op)
 	{
 	  return 1;
 	}
+	return 0;
+}
+
+int arg_num(uint16_t op) 
+{
+	if (isjump(op) || op == PUSH)
+		return 1;
 	return 0;
 }

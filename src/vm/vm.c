@@ -19,9 +19,9 @@ int execute(uint8_t *ram, uint32_t sp_value)
 		arg = 0;
 		opc_size = OPC_SIZE;
 		opc = read_ram_16(ram, regs.pc);
-		if(opc == PUSH || isjump(opc)) {
+		if(arg_num(opc) == 1) {
 			arg = read_ram_32(ram, regs.pc + OPC_SIZE);
-			opc_size = OPC_PARAM;
+			opc_size += arg_num(opc) * ARG_SIZE;
 		}
 		is_jmp = functions[opc](ram, &regs, &flgs, arg);
 		if(is_jmp != EXEC_JMP) 
