@@ -2,6 +2,9 @@
 #define __INSTRUCTIONS_HELPERS_H
 #include <stdint.h>
 #include "registers_flags.h"
+#define OPC_SIZE 0x02
+#define ARG_SIZE 0x04
+#define OPC_PARAM 0x06
 
 uint8_t pop_8(uint8_t *ram, struct registers *regs);
 void push_8(uint8_t *ram, struct registers *regs, uint8_t value);

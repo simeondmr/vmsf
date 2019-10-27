@@ -2,6 +2,6 @@
 #define __VM_H
 #include <stdint.h>
 
-int execute(uint8_t *ram);
+int execute(uint8_t *ram, uint32_t sp_value);
 
 #endif
