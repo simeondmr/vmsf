@@ -1,11 +1,12 @@
-Document version: 1.0.0
+Document version: 1.0.1
 
 This document contain all info about vmsf architecture.
 
 
 ########################################################################################################################################################
 General:
-This is a 32 bit stack virtual machine.
+This is a 32 bit stack virtual machine, implemeted for research and fun.
+At the moment no pipeline is implemented
 Byte ordering:  little-endian
 ########################################################################################################################################################
 
@@ -15,8 +16,8 @@ Byte ordering:  little-endian
 
 ########################################################################################################################################################
 Architecture:
-1) registers: pc, sp, bp
-2) flags
+1) registers: pc(program counter), sp(stack pointer), bp(base pointer)
+2) flags: overflow, carry, zero, negative
 
 Word: 1 byte
 
@@ -33,7 +34,27 @@ Instruction without param width(tot 2 byte):
  
  
 Stack architecture:
-...
+
+For manage the stack, vmsf use 2 pointers: sp and bp
+This register are really important, because sp point to the first empty cell on the task top, and bp point at the base of the current activation record(this is crucial for functions).
+Example of memory for this instructions: nop(0x0000), halt(0x002b)
+
+
++----+
+|    | <--sp,lv
++----+
++----+
+|0x00|
++----+
++----+
+|0x2b|
++----+
++----+
+|0x00|
++----+
++----+
+|0x00| <-- at the start, pc point to the first instruction byte
++----+
 
 
 ########################################################################################################################################################
@@ -90,3 +111,30 @@ ISA:
 45)  pushflags	->  opcode: 0x002c
 46)  popflags	->  opcode: 0x002d
 ########################################################################################################################################################
+
+
+########################################################################################################################################################
+
+How to use vmsf:
+
+At the moment there is no compiler for this machine, so you should write hex code by hand, using an hex editor.
+For example if you want to translate this code:
+
+NOP
+HALT
+
+you have to write this code: 0x00 0x00 0x2b 0x00, where the first byte is NOP, and the second one is HALT
+If you also want to execute the code, you have to compile vmsf using makefile, and you have to write in program param the name of file where there is the code.
+
+
+
+
+
+
+
+
+
+
+
+
+

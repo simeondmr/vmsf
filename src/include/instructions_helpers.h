@@ -21,5 +21,6 @@ void set_flags_add_sub(union flags *flgs, uint32_t a, uint32_t b, int carry, int
 void push_32_set_flags(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t value);
 void push_32_add_sub(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t a, uint32_t b, int carry, int neg);
 int isjump(uint16_t op);
+int arg_num(uint16_t op);
 
 #endif
