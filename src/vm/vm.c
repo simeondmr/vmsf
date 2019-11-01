@@ -4,6 +4,8 @@
 #include "../include/instructions.h"
 #include "../include/instructions_helpers.h"
 
+extern execute_opcode *functions[256]; 
+
 int execute(uint8_t *ram, uint32_t sp_value)
 {
 	struct registers regs;
