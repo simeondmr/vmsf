@@ -9,6 +9,4 @@ enum exec_result {
 	EXEC_HALT
 };
 
-execute_opcode *functions[256];
-
 #endif
