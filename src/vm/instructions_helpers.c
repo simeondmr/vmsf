@@ -121,7 +121,10 @@ int isjump(uint16_t op)
 	  || op == JMPBL
 	  || op == JMPAE
 	  || op == JMPBE
-	  || op == JMPNE) 
+	  || op == JMPNE
+	  || op == CALL
+	  || op == RET
+	  || op == POPALL) 
 	{
 	  return 1;
 	}
@@ -130,7 +133,10 @@ int isjump(uint16_t op)
 
 int arg_num(uint16_t op) 
 {
-	if (isjump(op) || op == PUSH)
+	if (isjump(op) || op == PUSH) {
+		if (op == POPALL)
+			return 0;
 		return 1;
+	}
 	return 0;
 }

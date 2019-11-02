@@ -125,8 +125,10 @@ int execute_not(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 
 int execute_call(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	// to implement
-	return EXEC_OK;
+	regs->bp = regs->sp;
+	regs->pc += 6;
+	execute_pushall(ram, regs, flgs, 0);
+	return execute_jmp(ram, regs, flgs, arg);
 }
 
 int execute_pushpc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
@@ -143,8 +145,10 @@ int execute_jmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 
 int execute_ret(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	// to implement
-	return EXEC_OK;
+	uint32_t ret_value = pop_32(ram, regs);
+	execute_popall(ram, regs, flgs, arg);
+	push_32(ram, regs, ret_value);
+	return EXEC_JMP;
 }
 
 int execute_ref(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) // TODO: implement security (access only if a>=bp?)
@@ -348,7 +352,7 @@ int execute_popall(uint8_t *ram, struct registers *regs, union flags *flgs, uint
 	regs->bp = pop_32(ram, regs);
 	flgs->f_data = pop_8(ram, regs);
 	regs-> pc = pop_32(ram, regs);
-	return EXEC_OK;
+	return EXEC_JMP;
 }
 
 int execute_halt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
