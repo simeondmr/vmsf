@@ -1,4 +1,4 @@
-Document version: 1.0.1
+Document version: 1.0.2
 
 This document contain all info about vmsf architecture.
 
@@ -6,7 +6,6 @@ This document contain all info about vmsf architecture.
 ########################################################################################################################################################
 General:
 This is a 32 bit stack virtual machine, implemeted for research and fun.
-At the moment no pipeline is implemented
 Byte ordering:  little-endian
 ########################################################################################################################################################
 
@@ -41,7 +40,7 @@ Example of memory for this instructions: nop(0x0000), halt(0x002b)
 
 
 +----+
-|    | <--sp,lv
+|    | <--sp
 +----+
 +----+
 |0x00|
@@ -54,6 +53,78 @@ Example of memory for this instructions: nop(0x0000), halt(0x002b)
 +----+
 +----+
 |0x00| <-- at the start, pc point to the first instruction byte
++----+
+
+
+** Stack situation, before, during and after a call: **
+
+consider this example:
+
+int test(int a, int b)
+{
+	return a + b;
+}
+
+test(10,11);
+
+Stack before call:
+
++----+
+|    |
++----+
++----+
+|    |
++----+
++----+
+|    | <-- sp
++----+
++----+
+| B  |
++----+
++----+
+| C  | <-- bp 
++----+
+
+Stack during call:
+
++----+
+|    | <-- current sp
++----+
++----+
+|a+b |
++----+
++----+
+| sp |
++----+
++----+
+| bp |
++----+
++----+
+|flgs|
++----+
++----+
+| pc | <-- (old sp) <-- current bp
++----+
++----+
+| B  |
++----+
++----+
+| C  | <-- (old bp) 
++----+
+
+Stack after call:
+
++----+
+|    | <-- sp
++----+
++----+
+|a+b |
++----+
++----+
+| B  |
++----+
++----+
+| C  | <-- bp
 +----+
 
 
