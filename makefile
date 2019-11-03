@@ -1,3 +1,10 @@
+ifdef OS
+#Windows
+EXEEXT  :=.exe
+else
+#Unix
+EXEEXT  :=
+endif
 MKDIR   :=mkdir
 RMDIR   :=rm -rf
 CC      :=gcc
@@ -8,12 +15,12 @@ SRC     :=./src/vm
 TEST    :=./src/test
 SRCS    :=$(wildcard $(SRC)/*.c)
 OBJS    :=$(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS))
-EXE     :=$(BIN)/vm.exe
+EXE     :=$(BIN)/vm$(EXEEXT)
 LOG     :=log.txt
 CFLAGS  :=-Wall -Wno-comment -I$(INCLUDE)
 LDLIBS  :=
 
-.PHONY: build run log clean all alllog test
+.PHONY: build run log tee cleanobj cleanbin clean all allrun alllog alltee flagtester malloctester alltester
 
 build: $(EXE)
 
@@ -30,16 +37,35 @@ run: $(EXE)
 	$<
 
 log: $(EXE)
+	$< > $(LOG)
+
+tee: $(EXE)
 	$< | tee $(LOG)
 
-clean:
-	$(RMDIR) $(OBJ) $(BIN)
+cleanobj:
+	$(RMDIR) $(OBJ)
 
-all: clean build run
+cleanbin:
+	$(RMDIR) $(BIN)
 
-alllog: clean build log
+clean: cleanobj cleanbin
 
-flagtester: test
-	$(CC) $(CFLAGS) -DFLAGTESTER_MAIN $(TEST)/flagtester.c -o flagtester.exe
-	./flagtester.exe
-	rm flagtester.exe
+all: clean build cleanobj
+
+allrun: clean build cleanobj run
+
+alllog: clean build cleanobj log
+
+alltee: clean build cleanobj tee
+
+flagtester: build
+	$(CC) $(CFLAGS) -DFLAGTESTER_MAIN $(TEST)/flagtester.c -o flagtester$(EXEEXT)
+	./flagtester$(EXEEXT)
+	rm flagtester$(EXEEXT)
+
+malloctester: build
+	$(CC) $(CFLAGS) -DMALLOCTESTER_MAIN $(TEST)/malloctester.c -o malloctester$(EXEEXT)
+	./malloctester$(EXEEXT)
+	rm malloctester$(EXEEXT)
+
+alltester: flagtester malloctester
