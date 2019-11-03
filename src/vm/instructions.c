@@ -321,7 +321,9 @@ int execute_decsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 
 int execute_unref(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
 {
-	// to implement
+	uint32_t data = pop_32(ram, regs);
+	uint32_t addr = pop_32(ram, regs);
+	write_ram_32(ram, addr, data);
 	return EXEC_OK;
 }
 
@@ -372,6 +374,22 @@ int execute_popflags(uint8_t *ram, struct registers *regs, union flags *flgs, ui
 	return EXEC_OK;
 }
 
+int execute_refbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
+{
+	uint32_t offset = pop_32(ram, regs);
+	uint32_t data = read_ram_32(ram, regs->bp + offset);
+	push_32_set_flags(ram, regs, flgs, data);
+	return EXEC_OK;
+}
+
+int execute_unrefbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+{
+	uint32_t data = pop_32(ram, regs);
+	uint32_t offset = pop_32(ram, regs);
+	write_ram_32(ram, regs->bp + offset, data);
+	return EXEC_OK;
+}
+
 execute_opcode *functions[256] = {
 	execute_nop,
 	execute_push,
@@ -418,5 +436,7 @@ execute_opcode *functions[256] = {
 	execute_popall,
 	execute_halt,
 	execute_pushflags,
-	execute_popflags
+	execute_popflags,
+	execute_refbp,
+	execute_unrefbp
 };

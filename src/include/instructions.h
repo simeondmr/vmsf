@@ -55,5 +55,7 @@ execute_opcode execute_popall;
 execute_opcode execute_halt;
 execute_opcode execute_pushflags;
 execute_opcode execute_popflags;
+execute_opcode execute_refbp;
+execute_opcode execute_unrefbp;
 
 #endif

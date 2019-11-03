@@ -46,6 +46,8 @@ enum opcodes {
 	POPALL,
 	HALT,
 	PUSHFLAGS,
-	POPFLAGS
+	POPFLAGS,
+	REFBP,
+	UNREFBP
 };
 #endif
