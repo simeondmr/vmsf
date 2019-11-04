@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include "../include/ram.h"
-#include "../include/registers_flags.h"
-#include "../include/opcodes.h"
-#include "../include/instructions.h"
-#include "../include/instructions_helpers.h"
+#include "../include/vm/ram.h"
+#include "../include/vm/registers_flags.h"
+#include "../include/vm/opcodes.h"
+#include "../include/vm/instructions.h"
+#include "../include/vm/instructions_helpers.h"
 
 uint8_t pop_8(uint8_t *ram, struct registers *regs)
 {

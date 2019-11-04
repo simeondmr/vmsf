@@ -1,7 +1,7 @@
-#include "../include/load_execute.h"
-#include "../include/ram.h"
-#include "../include/rom_loader.h"
-#include "../include/vm.h"
+#include "../include/vm/load_execute.h"
+#include "../include/vm/ram.h"
+#include "../include/vm/rom_loader.h"
+#include "../include/vm/vm.h"
 
 uint32_t load_execute(char *filename)
 {

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "../include/ram.h"
+#include "../include/vm/ram.h"
 
 uint8_t *setup_ram() 
 {

@@ -1,5 +1,5 @@
-#include "../include/rom_loader.h"
-#include "../include/ram.h"
+#include "../include/vm/rom_loader.h"
+#include "../include/vm/ram.h"
 
 uint32_t rom_loader(uint8_t *ram, char *filename)
 {

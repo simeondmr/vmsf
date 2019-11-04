@@ -17,7 +17,7 @@ SRCS    :=$(wildcard $(SRC)/*.c)
 OBJS    :=$(patsubst $(SRC)/%.c,$(OBJ)/%.o,$(SRCS))
 EXE     :=$(BIN)/vm$(EXEEXT)
 LOG     :=log.txt
-CFLAGS  :=-Wall -Wno-comment -I$(INCLUDE)
+CFLAGS  :=-Wall -Wno-comment -I$(INCLUDE) -std=c99
 LDLIBS  :=
 
 .PHONY: build run log tee cleanobj cleanbin clean all allrun alllog alltee flagtester malloctester alltester

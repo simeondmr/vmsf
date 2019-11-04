@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../include/vm.h"
-#include "../include/load_execute.h"
+#include "../include/vm/vm.h"
+#include "../include/vm/load_execute.h"
 
 int main(int argc, char *argv[])
 {
