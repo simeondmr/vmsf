@@ -4,7 +4,7 @@
 #include "../include/vm/instructions.h"
 #include "../include/vm/instructions_helpers.h"
 
-extern execute_opcode *functions[256]; 
+extern execute_opcode *functions[]; 
 
 int execute(uint8_t *ram, uint32_t sp_value)
 {

@@ -48,6 +48,8 @@ enum opcodes {
 	PUSHFLAGS,
 	POPFLAGS,
 	REFBP,
-	UNREFBP
+	UNREFBP,
+	INT,
+	OUT
 };
 #endif

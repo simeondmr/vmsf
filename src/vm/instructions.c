@@ -390,7 +390,20 @@ int execute_unrefbp(uint8_t *ram, struct registers *regs, union flags *flgs, uin
 	return EXEC_OK;
 }
 
-execute_opcode *functions[256] = {
+int execute_int(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
+{
+	//TODO: implement it
+	return EXEC_OK;
+}
+
+int execute_out(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
+{
+	//TODO: implement it
+	return EXEC_OK;
+}
+
+
+execute_opcode *functions[] = {
 	execute_nop,
 	execute_push,
 	execute_add,
@@ -438,5 +451,7 @@ execute_opcode *functions[256] = {
 	execute_pushflags,
 	execute_popflags,
 	execute_refbp,
-	execute_unrefbp
+	execute_unrefbp,
+	execute_int,
+	execute_out
 };
