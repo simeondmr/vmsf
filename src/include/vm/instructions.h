@@ -59,5 +59,6 @@ execute_opcode execute_refbp;
 execute_opcode execute_unrefbp;
 execute_opcode execute_int;
 execute_opcode execute_out;
+execute_opcode execute_in;
 
 #endif

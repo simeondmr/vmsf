@@ -50,6 +50,7 @@ enum opcodes {
 	REFBP,
 	UNREFBP,
 	INT,
-	OUT
+	OUT,
+	IN
 };
 #endif

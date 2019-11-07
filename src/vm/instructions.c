@@ -402,6 +402,13 @@ int execute_out(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
+int execute_in(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
+{
+	//TODO: implement it
+	return EXEC_OK;
+}
+
+
 
 execute_opcode *functions[] = {
 	execute_nop,
@@ -453,5 +460,6 @@ execute_opcode *functions[] = {
 	execute_refbp,
 	execute_unrefbp,
 	execute_int,
-	execute_out
+	execute_out,
+	execute_in
 };
