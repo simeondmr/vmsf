@@ -4,19 +4,20 @@
 #include "../include/vm/opcodes.h"
 #include "../include/vm/instructions_helpers.h"
 #include "../include/vm/instructions.h"
+#include "../include/hardware/io.h"
 
-int execute_nop(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_nop(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	return EXEC_OK;
 }
 
-int execute_push(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_push(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	push_32_set_flags(ram, regs, flgs, arg);
 	return EXEC_OK;
 }
 
-int execute_add(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_add(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -24,7 +25,7 @@ int execute_add(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_sub(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_sub(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -32,7 +33,7 @@ int execute_sub(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_mul(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_mul(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -40,7 +41,7 @@ int execute_mul(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_div(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_div(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -53,7 +54,7 @@ int execute_div(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_addc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_addc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -61,7 +62,7 @@ int execute_addc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32
 	return EXEC_OK;
 }
 
-int execute_subc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_subc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -69,21 +70,21 @@ int execute_subc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32
 	return EXEC_OK;
 }
 
-int execute_inc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_inc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param = pop_32(ram, regs);
 	push_32_add_sub(ram, regs, flgs, param, 1, 0, 0);
 	return EXEC_OK;
 }
 
-int execute_dec(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_dec(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param = pop_32(ram, regs);
 	push_32_add_sub(ram, regs, flgs, param, 1, 0, 1);
 	return EXEC_OK;
 }
 
-int execute_swap(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_swap(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -92,7 +93,7 @@ int execute_swap(uint8_t *ram, struct registers *regs, union flags *flgs, uint32
 	return EXEC_OK;
 }
 
-int execute_xor(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_xor(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -100,7 +101,7 @@ int execute_xor(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_and(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_and(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -108,7 +109,7 @@ int execute_and(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_or(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_or(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -116,42 +117,42 @@ int execute_or(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t
 	return EXEC_OK;
 }
 
-int execute_not(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_not(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param = pop_32(ram, regs);
 	push_32_set_flags(ram, regs, flgs, ~param);
 	return EXEC_OK;
 }
 
-int execute_call(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_call(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	regs->bp = regs->sp;
 	regs->pc += 6;
-	execute_pushall(ram, regs, flgs, 0);
-	return execute_jmp(ram, regs, flgs, arg);
+	execute_pushall(ram, regs, flgs, 0, prts);
+	return execute_jmp(ram, regs, flgs, arg, prts);
 }
 
-int execute_pushpc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_pushpc(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	push_32(ram, regs, regs->pc);
 	return EXEC_OK;
 }
 
-int execute_jmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	regs->pc = arg;
 	return EXEC_JMP;
 }
 
-int execute_ret(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_ret(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t ret_value = pop_32(ram, regs);
-	execute_popall(ram, regs, flgs, arg);
+	execute_popall(ram, regs, flgs, arg, prts);
 	push_32(ram, regs, ret_value);
 	return EXEC_JMP;
 }
 
-int execute_ref(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) // TODO: implement security (access only if a>=bp?)
+int execute_ref(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) // TODO: implement security (access only if a>=bp?)
 {
 	uint32_t param = pop_32(ram, regs);
 	param = read_ram_32(ram, param);
@@ -159,14 +160,14 @@ int execute_ref(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_dup(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_dup(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t value = read_ram_32(ram, regs->sp - 3);
 	push_32(ram, regs, value);
 	return EXEC_OK;
 }
 
-int execute_mod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_mod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -179,7 +180,7 @@ int execute_mod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_cmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_cmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -187,7 +188,7 @@ int execute_cmp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_
 	return EXEC_OK;
 }
 
-int execute_jmpeq(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpeq(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (flgs->zero) {
 		regs->pc = arg;
@@ -196,7 +197,7 @@ int execute_jmpeq(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmplt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmplt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (flgs->negative) {
 		regs->pc = arg;
@@ -205,7 +206,7 @@ int execute_jmplt(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmpgt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpgt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (flgs->negative == flgs->overflow && !flgs->zero) {
 		regs->pc = arg;
@@ -214,7 +215,7 @@ int execute_jmpgt(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmple(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmple(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (flgs-> negative || flgs->zero) {
 		regs->pc = arg;
@@ -223,7 +224,7 @@ int execute_jmple(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmpge(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpge(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (flgs->negative == flgs->overflow || flgs->zero) {
 		regs->pc = arg;
@@ -232,7 +233,7 @@ int execute_jmpge(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmpab(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpab(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (!flgs->carry && !flgs->zero) {
 	  regs->pc = arg;
@@ -241,7 +242,7 @@ int execute_jmpab(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmpbl(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpbl(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (flgs->carry) {
 		regs->pc = arg;
@@ -250,7 +251,7 @@ int execute_jmpbl(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmpae(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpae(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (!flgs->carry && flgs->zero) {
 		regs->pc = arg;
@@ -259,7 +260,7 @@ int execute_jmpae(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmpbe(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpbe(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (flgs->carry || flgs->zero) {
 		regs->pc=arg;
@@ -268,7 +269,7 @@ int execute_jmpbe(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_jmpne(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_jmpne(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	if (!flgs->zero) {
 		regs->pc=arg;
@@ -277,7 +278,7 @@ int execute_jmpne(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_divmod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_divmod(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param2 = pop_32(ram, regs);
 	uint32_t param1 = pop_32(ram, regs);
@@ -293,33 +294,33 @@ int execute_divmod(uint8_t *ram, struct registers *regs, union flags *flgs, uint
 	return EXEC_OK;
 }
 
-int execute_addsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_addsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param = pop_32(ram, regs);
 	regs->sp += param;
 	return EXEC_OK;
 }
 
-int execute_subsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_subsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t param = pop_32(ram, regs);
 	regs->sp -= param;
 	return EXEC_OK;
 }
 
-int execute_incsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_incsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	regs->sp++;
 	return EXEC_OK;
 }
 
-int execute_decsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_decsp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	regs->sp--;
 	return EXEC_OK;
 }
 
-int execute_unref(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_unref(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t data = pop_32(ram, regs);
 	uint32_t addr = pop_32(ram, regs);
@@ -327,19 +328,19 @@ int execute_unref(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_pushbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_pushbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	push_32(ram, regs, regs->bp);
 	return EXEC_OK;
 }
 
-int execute_popbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_popbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	regs->bp = pop_32(ram, regs);
 	return EXEC_OK;
 }
 
-int execute_pushall(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_pushall(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	push_32(ram, regs, regs->pc);
 	push_8(ram, regs, flgs->f_data);
@@ -348,7 +349,7 @@ int execute_pushall(uint8_t *ram, struct registers *regs, union flags *flgs, uin
 	return EXEC_OK;
 }
 
-int execute_popall(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_popall(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	regs->sp = pop_32(ram, regs);
 	regs->bp = pop_32(ram, regs);
@@ -357,24 +358,24 @@ int execute_popall(uint8_t *ram, struct registers *regs, union flags *flgs, uint
 	return EXEC_JMP;
 }
 
-int execute_halt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_halt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	return EXEC_HALT;
 }
 
-int execute_pushflags(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_pushflags(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	push_8(ram, regs, flgs->f_data);
 	return EXEC_OK;
 }
 
-int execute_popflags(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_popflags(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	flgs->f_data = pop_8(ram, regs);
 	return EXEC_OK;
 }
 
-int execute_refbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
+int execute_refbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts)
 {
 	uint32_t offset = pop_32(ram, regs);
 	uint32_t data = read_ram_32(ram, regs->bp + offset);
@@ -382,7 +383,7 @@ int execute_refbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint3
 	return EXEC_OK;
 }
 
-int execute_unrefbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg) 
+int execute_unrefbp(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
 	uint32_t data = pop_32(ram, regs);
 	uint32_t offset = pop_32(ram, regs);
@@ -390,19 +391,19 @@ int execute_unrefbp(uint8_t *ram, struct registers *regs, union flags *flgs, uin
 	return EXEC_OK;
 }
 
-int execute_int(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
+int execute_int(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts)
+{
+	
+	return EXEC_OK;
+}
+
+int execute_out(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts)
 {
 	//TODO: implement it
 	return EXEC_OK;
 }
 
-int execute_out(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
-{
-	//TODO: implement it
-	return EXEC_OK;
-}
-
-int execute_in(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg)
+int execute_in(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts)
 {
 	//TODO: implement it
 	return EXEC_OK;

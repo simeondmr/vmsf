@@ -1,14 +1,27 @@
 #ifndef __IO_H
 #define __IO_H
 #include <stdint.h>
+#include <pthread.h>
+#include <stdbool.h>
 #include "../vm/registers_flags.h"
-#include "../hardware/console.h"
 
-typedef int (interrupt)(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg);
-
-interrupt *int_table[] = {
-	int_printchar
+struct ports {
+	uint32_t p1;
+	uint32_t p2;
+	uint32_t p3;
+	bool ready;
+	pthread_cond_t p_cond;
+	pthread_cond_t ready_cond;
+	pthread_mutex_t mutex;
 };
+
+
+
+struct ports *init_port();
+void close_ports(struct ports *prts);
+
+
+
 
 
 #endif

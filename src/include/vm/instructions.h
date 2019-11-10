@@ -1,7 +1,8 @@
 #ifndef __INSTRUCTIONS_H
 #define __INSTRUCTIONS_H
+#include "../hardware/io.h"
 
-typedef int (execute_opcode)(uint8_t *ram, struct registers *regs, union flags*, uint32_t arg);
+typedef int (execute_opcode)(uint8_t *ram, struct registers *regs, union flags*, uint32_t arg, struct ports *prts);
 
 enum exec_result {
 	EXEC_OK,

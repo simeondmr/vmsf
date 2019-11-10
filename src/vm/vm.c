@@ -3,10 +3,11 @@
 #include "../include/vm/registers_flags.h"
 #include "../include/vm/instructions.h"
 #include "../include/vm/instructions_helpers.h"
+#include "../include/hardware/io.h"
 
 extern execute_opcode *functions[]; 
 
-int execute(uint8_t *ram, uint32_t sp_value)
+int execute(uint8_t *ram, uint32_t sp_value, struct ports *prts)
 {
 	struct registers regs;
 	union flags flgs;
@@ -25,7 +26,7 @@ int execute(uint8_t *ram, uint32_t sp_value)
 			arg = read_ram_32(ram, regs.pc + OPC_SIZE);
 			opc_size += arg_num(opc) * ARG_SIZE;
 		}
-		is_jmp = functions[opc](ram, &regs, &flgs, arg);
+		is_jmp = functions[opc](ram, &regs, &flgs, arg, prts);
 		if(is_jmp != EXEC_JMP) 
 			regs.pc += opc_size;
 	}

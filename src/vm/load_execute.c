@@ -2,8 +2,10 @@
 #include "../include/vm/ram.h"
 #include "../include/vm/rom_loader.h"
 #include "../include/vm/vm.h"
+#include "../include/hardware/io.h"
+#include "../include/hardware/console.h"
 
-uint32_t load_execute(char *filename)
+uint32_t load_execute(char *filename, struct ports *prts)
 {
 	uint8_t *ram = setup_ram();
 	uint32_t sp_value = rom_loader(ram, filename);
@@ -11,7 +13,7 @@ uint32_t load_execute(char *filename)
 		unsetup_ram(ram);
 		return 0;
 	}
-	execute(ram, sp_value);
+	execute(ram, sp_value, prts);
 	unsetup_ram(ram);
 	return 1;
 }
