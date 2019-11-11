@@ -133,7 +133,7 @@ int isjump(uint16_t op)
 
 int arg_num(uint16_t op) 
 {
-	if (isjump(op) || op == PUSH) {
+	if (isjump(op) || op == PUSH || op == INT || op == OUT || op == IN) {
 		if (op == POPALL)
 			return 0;
 		return 1;

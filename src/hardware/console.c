@@ -12,9 +12,11 @@ void *console(void *ptr)
 	while(1) {
 		pthread_mutex_lock(&prts->mutex);
 		pthread_cond_wait(&prts->p_cond, &prts->mutex);
+		int p1 = prts->p1;
+		int p2 = prts->p2;
 		pthread_mutex_unlock(&prts->mutex);
-		if (prts->p1 == CONSOLE_HW) {
-			int_table[prts->p2](prts);
+		if (p1 == CONSOLE_HW) {
+			int_table[p2](prts);
 		}
 	}
 	return 0;
@@ -30,8 +32,9 @@ pthread_t *init_console(struct ports *prts)
 void print_char(struct ports *prts) 
 {
 	pthread_mutex_lock(&prts->mutex);
-	pthread_cond_wait(&prts->ready_cond, &prts->mutex);
-	printf("%c", (char) prts->p3);
+	while (!prts->ready)
+		pthread_cond_wait(&prts->ready_cond, &prts->mutex);
+	printf("out %c", (char) prts->p3);
 	fflush(stdout);
 	pthread_mutex_unlock(&prts->mutex);
 }

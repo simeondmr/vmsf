@@ -393,23 +393,23 @@ int execute_unrefbp(uint8_t *ram, struct registers *regs, union flags *flgs, uin
 
 int execute_int(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts)
 {
-	
+	uint32_t int_func_addr = pop_32(ram, regs);
+	write_p1_p2(arg, int_func_addr, prts);
 	return EXEC_OK;
 }
 
 int execute_out(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts)
 {
-	//TODO: implement it
+	write_p3(arg, prts);
 	return EXEC_OK;
 }
 
 int execute_in(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts)
 {
-	//TODO: implement it
+	uint32_t p3 = read_p3(prts);
+	push_32(ram, regs, p3);
 	return EXEC_OK;
 }
-
-
 
 execute_opcode *functions[] = {
 	execute_nop,

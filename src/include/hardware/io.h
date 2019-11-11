@@ -15,13 +15,10 @@ struct ports {
 	pthread_mutex_t mutex;
 };
 
-
-
 struct ports *init_port();
+void write_p1_p2(uint32_t p1, uint32_t p2, struct ports *prts);
+void write_p3(uint32_t data, struct ports *prts);
+uint32_t read_p3(struct ports *prts);
 void close_ports(struct ports *prts);
-
-
-
-
 
 #endif
