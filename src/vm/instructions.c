@@ -360,6 +360,7 @@ int execute_popall(uint8_t *ram, struct registers *regs, union flags *flgs, uint
 
 int execute_halt(uint8_t *ram, struct registers *regs, union flags *flgs, uint32_t arg, struct ports *prts) 
 {
+	//mettere join per attesa threads
 	return EXEC_HALT;
 }
 

@@ -34,7 +34,7 @@ void print_char(struct ports *prts)
 	pthread_mutex_lock(&prts->mutex);
 	while (!prts->ready)
 		pthread_cond_wait(&prts->ready_cond, &prts->mutex);
-	printf("out %c", (char) prts->p3);
+	printf("%c", (char) prts->p3);
 	fflush(stdout);
 	pthread_mutex_unlock(&prts->mutex);
 }
